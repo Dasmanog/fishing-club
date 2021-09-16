@@ -18,7 +18,7 @@
                         <select name="reservoir_id">
                             @foreach ($reservoirs as $reservoir)
                             <option value="{{$reservoir->id}}" @if($reservoir->id == $member->reservoir_id) selected @endif>
-                                {{$reservoir->name}} {{$reservoir->surname}} {{$reservoir->live}} {{$reservoir->experience}} {{$reservoir->registered}}
+                                {{$reservoir->title}}
                             </option>
                             @endforeach
                         </select>
