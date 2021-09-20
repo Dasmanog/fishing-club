@@ -9,7 +9,7 @@ class Member extends Model
 {
     use HasFactory;
 
-    public function memeberReservoir()
+    public function reservoir()
     {
         return $this->belongsTo('App\Models\Reservoir', 'reservoir_id', 'id');
     }

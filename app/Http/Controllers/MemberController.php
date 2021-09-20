@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Models\Reservoir;
-
+use Validator;
 
 class MemberController extends Controller
 {
@@ -18,7 +18,8 @@ class MemberController extends Controller
     public function index()
     {
         $members = Member::all();
-       return view('member.index', ['members' => $members]);
+        $reservoirs=Reservoir::all();
+       return view('member.index', ['members' => $members, 'reservoirs' => $reservoirs]);
     }
 
     /**
@@ -41,6 +42,44 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(),
+        [
+            'name' => ['required', 'min:2', 'max:100'],
+            'surname' => ['required', 'min:2', 'max:150'],
+            'live' => ['required', 'min:2', 'max:50'],
+            'experience' => ['required', 'numeric', 'min:1'],
+            'registered' => ['required', 'numeric', 'lt:experience', 'min:0'],
+        ],
+ [
+ 'name.min' => 'Vardas per trumpas',
+ 'name.max' => 'Vardas per ilgas',
+ 'name.required' => 'Privaloma nurodyti vardą',
+
+ 'surname.min' => 'Pavardė per trumpa',
+ 'surname.max' => 'Pavardė per ilga',
+ 'surname.required' => 'Privaloma nurodyti pavardę',
+
+ 'live.required' => 'Privaloma nurodyti gyvenamąją vietą',
+
+ 'experience.numeric' => 'Patirtis turi būti nurodoma skaičiais',
+ 'experience.required' => 'Būtina nurodyti patirtį',
+ 
+
+ 'registered.numeric' => 'Registracija turi būti nurodoma skaičiais',
+ 'registered.required' => 'Būtina nurodyti registraciją',
+ 'registered.lt:experience' => 'Registracija turi būti mažesnė negu patirtis',
+ 'registered.min' => 'Minimalus reikalavimas yra nurodyti nulį'
+ ]
+ //nurodyti validacijoje iki kiek gali buti integeriai(dydis)
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($validator);
+        }
+ 
+
+
         $member = new Member;
         $member->name = $request->name;
         $member->surname = $request->surname;
@@ -49,20 +88,23 @@ class MemberController extends Controller
         $member->registered = $request->registered;
         $member->reservoir_id = $request->reservoir_id;
         $member->save();
-        return redirect()->route('member.index');
- 
+        return redirect()->route('member.index')->with('success_message','sėkmingai įrašytas');
     }
 
-    /**
+
+/**
      * Display the specified resource.
      *
-     * @param  \App\Models\Member  $member
+     * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
     public function show(Member $member)
     {
         //
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -74,6 +116,7 @@ class MemberController extends Controller
     {
         $reservoirs = Reservoir::all();
         return view('member.edit', ['member' => $member, 'reservoirs' => $reservoirs]);
+        
     }
 
     /**
@@ -85,6 +128,42 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'name' => ['required', 'min:2', 'max:100'],
+            'surname' => ['required', 'min:2', 'max:150'],
+            'live' => ['required', 'min:2', 'max:50'],
+            'experience' => ['required', 'numeric', 'min:1'],
+            'registered' => ['required', 'numeric', 'lt:experience', 'min:0'],
+        ],
+ [
+ 'name.min' => 'Vardas per trumpas',
+ 'name.max' => 'Vardas per ilgas',
+ 'name.required' => 'Privaloma nurodyti vardą',
+
+ 'surname.min' => 'Pavardė per trumpa',
+ 'surname.max' => 'Pavardė per ilga',
+ 'surname.required' => 'Privaloma nurodyti pavardę',
+
+ 'live.required' => 'Privaloma nurodyti gyvenamąją vietą',
+
+ 'experience.numeric' => 'Patirtis turi būti nurodoma skaičiais',
+ 'experience.required' => 'Būtina nurodyti patirtį',
+ 
+
+ 'registered.numeric' => 'Registracija turi būti nurodoma skaičiais',
+ 'registered.required' => 'Būtina nurodyti registraciją',
+ 'registered.lte:experience' => 'Registracija turi būti mažesnė arba lygu negu patirtis',
+ 'registered.min' => 'Minimalus reikalavimas yra nurodyti nulį'
+ ]
+ 
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($validator);
+        }
+
+
         $member->name = $request->name;
        $member->surname = $request->surname;
        $member->live = $request->live;
@@ -92,7 +171,7 @@ class MemberController extends Controller
        $member->registered = $request->registered;
        $member->reservoir_id = $request->reservoir_id;
        $member->save();
-       return redirect()->route('member.index');
+       return redirect()->route('member.index')->with('success_message','sėkmingai atnaujintas');
     }
 
     /**
@@ -104,7 +183,6 @@ class MemberController extends Controller
     public function destroy(Member $member)
     {
         $member->delete();
-       return redirect()->route('member.index');
-
+       return redirect()->route('member.index')->with('success_message','sėkmingai ištrintas');
     }
 }

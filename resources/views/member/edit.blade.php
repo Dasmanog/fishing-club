@@ -5,16 +5,33 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Redaguoti</div>
+                <div style="background-color: #B0C4DE; color:black" class="card-header text-center"><h3>Redaguoti narį</h3></div>
 
-                <div class="card-body">
 
+                <div style="background-color: #B0C4DE; color:black" class="card-body">
                     <form method="POST" action="{{route('member.update',[$member])}}">
-                        Name: <input type="text" name="name" value="{{$member->name}}">
-                        Surname: <input type="text" name="surname" value="{{$member->surname}}">
-                        Live: <input type="text" name="live" value="{{$member->live}}">
-                        Experience: <input type="text" name="experience" value="{{$member->experience}}">
-                        Registered: <input type="text" name="registered" value="{{$member->registered}}">
+                        <div class="form-group row">
+                            <div class="form-group">
+                                <label for="name">Vardas:</label>
+                                <input class="form-control" type="text" name="name" value="{{old('name',$member->name)}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="surname">Pavardė:</label>
+                                <input class="form-control" type="text" name="surname" value="{{old('surname',$member->surname)}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="live">Gyvenamoji vieta:</label>
+                                <input class="form-control" type="text" name="live" value="{{old('live',$member->live)}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="experience">Patirtis (metai):</label>
+                                <input class="form-control" type="text" name="experience" value="{{old('experience',$member->experience)}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registered">Registracija (metai):</label>
+                                <input class="form-control" type="text" name="registered" value="{{old('registered',$member->registered)}}" required>
+                            </div>
+                        </div>
                         <select name="reservoir_id">
                             @foreach ($reservoirs as $reservoir)
                             <option value="{{$reservoir->id}}" @if($reservoir->id == $member->reservoir_id) selected @endif>
@@ -23,10 +40,8 @@
                             @endforeach
                         </select>
                         @csrf
-                        <button type="submit">edit</button>
+                        <button class="btn btn-info" type="submit">Atnaujinti</button>
                     </form>
-
-
 
                 </div>
             </div>

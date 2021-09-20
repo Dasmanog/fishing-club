@@ -5,40 +5,30 @@
   <div class="row justify-content-center">
     <div class="col-md-10">
       <div style="background-color: #B0C4DE; color:black" class="card">
-        <div class="card-header text-center"><h3> Nariai</h3></div>
+        <div class="card-header text-center"><h3>cia turi buti perduodamas upes pavadinimas pagal id</h3></div>
 
         <div class="card-body">
           <table style="background-color: #B0C4DE; color:black" class="table">
-            <a class="btn btn-info" href="{{ route('member.create') }}">
-              Įrašyti narį</a>
-
-            <tr>
-
+          <a class="btn btn-info" href="{{ route('reservoir.index') }}"> Grįžti atgal į vandens tvenkinių sąrašą</a>
+          
             <tr>
               <th>Vardas</th>
               <th>Pavardė</th>
               <th>Gyvenamoji vieta</th>
               <th>Patirtis(metai)</th>
               <th>Registracija(metai)</th>
-              <th>Vandens telkinys</th>
-              <th>edit</th>
-              <th>delete</th>
+              
             </tr>
 
-            @foreach ($members as $member)
+            @foreach ($reservoir->member as $member)
             <tr>
               <td>{{$member->name}}</td>
               <td>{{$member->surname}}</td>
               <td>{{$member->live}}</td>
               <td>{{$member->experience}}</td>
               <td>{{$member->registered}}</td>
-              <td>{{$member->reservoir->title}}</td>
 
-              <td><a class="btn btn-info" href="{{route('member.edit',[$member])}}">edit</a></td>
-              <td>
-                <form method="POST" action="{{route('member.destroy', [$member])}}">
                   @csrf
-                  <button class="btn btn-danger" type="submit">delete</button>
                 </form>
               </td>
             </tr>

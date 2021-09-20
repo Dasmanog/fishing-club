@@ -4,17 +4,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+
+
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -43,7 +54,7 @@
 
 
 <!--                                               NAVBARAS                                               -->
-
+@auth
                     <li class="nav-item dropdown">
 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                    Vandens telkiniai
@@ -62,33 +73,28 @@
                                    Nariai
                                </a>
                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                   <a class="dropdown-item" href="{{ route('member.index') }}">
+                                   <a class="dropdown-item" href="{{route('member.index') }}">
                                    Narių sąrašas
                                    </a>
-                                       <a class="dropdown-item" href="{{ route('member.create') }}">
-                                       Įrašyti Narį
+                                       <a class="dropdown-item" href="{{route('member.create') }}">
+                                       Įrašyti naują Narį
                                    </a>
                                </div>
                            </li>
-
-
-
-
-
-
+@endauth
 
 
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -115,7 +121,45 @@
             </div>
         </nav>
 
+
         <main class="py-4">
+
+
+
+<!-- kad rodytu pranesimus kai atliekam korekcija, keliam cia ir keliam i kontrolerius -->
+        <div class="container">
+                       <div class="row justify-content-center">
+                           <div class="col-md-9">
+                               @if ($errors->any())
+                               <div class="alert">
+                                   <ul class="list-group">
+                                       @foreach ($errors->all() as $error)
+                                           <li class="list-group-item list-group-item-danger">{{ $error }}</li>
+                                       @endforeach
+                                   </ul>
+                               </div>
+                               @endif
+                           </div>
+                       </div>
+                   </div>
+                   <div class="container">
+                       <div class="row justify-content-center">
+                           <div class="col-md-9">
+                               @if(session()->has('success_message'))
+                                   <div class="alert alert-success" role="alert">
+                                       {{session()->get('success_message')}}
+                                   </div>
+                               @endif
+                              
+                               @if(session()->has('info_message'))
+                                   <div class="alert alert-info" role="alert">
+                                       {{session()->get('info_message')}}
+                                   </div>
+                               @endif
+                           </div>
+                       </div>
+                   </div>
+
             @yield('content')
         </main>
     </div>

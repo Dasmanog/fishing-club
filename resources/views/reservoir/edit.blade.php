@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -7,25 +6,38 @@
 
 <div class="container">
    <div class="row justify-content-center">
-      <div  class="col-md-8">
+      <div class="col-md-8">
          <div style="background-color: #B0C4DE; color:black;" class="card">
-            <div  class="card-header">
-               <button class="btn btn-info" style="background-color:#B0C4DE"><a href="https://localhost/fishing-club/public/reservoirs">Home</a></button>
-            Įvesti upę</div>
+            <div class="card-header text-center"><h3>Redaguoti vandens tvenkinį</h3></div>
+            <div class="card-body">
 
-            <div  class="card-body">
+            <form method="POST" action="{{route('reservoir.update',[$reservoir])}}">
+            <div class="form-group">
+                     <div class="form-group">
+                        <label for="name">Pavadinimas:</label>
+                        <input class="form-control" type="text" name="title" value="{{old('title',$reservoir->title)}}" required>
+                     </div>
+                     <div class="form-group">
+                        <label for="name">Plotas:</label>
+                        <input class="form-control" type="text" name="area" value="{{old('area',$reservoir->area)}}" required>
+                     </div>
+                     <div class="form-group">
+                        <label for="name">Aprašymas:</label>
+                        <textarea style="background-color: white;" type="text" name="about" id="summernote" value="{{old('about',$reservoir->about)}}">{{$reservoir->about}}</textarea>
+                     </div>
+                     </div> 
+                  @csrf
+                  <button class="btn btn-info" type="submit">Atnaujinti</button>
 
-<form method="POST" action="{{route('reservoir.update',$reservoir)}}">
-   Title: <input type="text" name="title" value="{{$reservoir->title}}">
-   Area: <input type="text" name="area" value="{{$reservoir->area}}">
-   About:  <textarea name="about">{{$reservoir->about}}</textarea>
-   @csrf
-   <button class="btn btn-info" type="submit">edit</button>
-  
-</form>
-</div>
+               </form>
+            </div>
          </div>
       </div>
    </div>
 </div>
+<script>
+$(document).ready(function() {
+   $('#summernote').summernote();
+ });
+</script>
 @endsection

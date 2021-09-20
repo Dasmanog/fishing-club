@@ -9,7 +9,7 @@ class Reservoir extends Model
 {
     use HasFactory;
 
-    public function reservoirMemeber()
+    public function member()
    {
        return $this->hasMany('App\Models\Member', 'reservoir_id', 'id');
    }
