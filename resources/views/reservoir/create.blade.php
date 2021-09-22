@@ -16,7 +16,7 @@
                      </div>
                      <div class="form-group">
                         <label for="name">Plotas:</label>
-                        <input class="form-control" type="text" name="area" value="{{old('area')}}" required>
+                        <input class="form-control" type="number" step="0.001" name="area" value="{{old('area')}}" required>
                      </div>
                      <div class="form-group" style="background-color: white!important;">
                         <label for="name">Aprašymas:</label>

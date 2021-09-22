@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-10">
       <div style="background-color: #B0C4DE; color:black" class="card">
-        <div class="card-header text-center"><h3>cia turi buti perduodamas upes pavadinimas pagal id</h3></div>
+        <div class="card-header text-center"><h3> <b>{{$reservoir->title}}</b> narių sąrašas</h3></div>
 
         <div class="card-body">
           <table style="background-color: #B0C4DE; color:black" class="table">

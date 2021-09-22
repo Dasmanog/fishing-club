@@ -19,7 +19,7 @@
                      </div>
                      <div class="form-group">
                         <label for="name">Plotas:</label>
-                        <input class="form-control" type="text" name="area" value="{{old('area',$reservoir->area)}}" required>
+                        <input class="form-control" type="number" name="area" value="{{old('area',$reservoir->area)}}" required>
                      </div>
                      <div class="form-group">
                         <label for="name">Aprašymas:</label>

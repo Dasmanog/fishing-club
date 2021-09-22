@@ -40,21 +40,25 @@ class ReservoirController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(),
         [
-            'title' => ['required', 'min:2', 'max:200'],
-            'area' => ['required', 'min:0'],
-            'about' => ['required', 'min:2'],
+            'title' => ['required', 'min:2', 'unique:reservoirs', 'max:200', 'string'],
+            'area' => ['required', 'numeric', 'max:999999999.999','min:0'],
+            'about' => ['required', 'min:3'],
         ],
  [
- 'title.required' => 'Privaloma įvesti pavadinimą',
- 'title.min' => 'Pavadinimas per trumpas',
- 'title.max' => 'Pavadinimas per ilgas',
+    'title.required' => 'Privaloma įvesti pavadinimą',
+    'title.min' => 'Pavadinimas per trumpas',
+    'title.max' => 'Pavadinimas per ilgas',
+    'title.string' => 'Vardas turi būti sudarytas iš raidžių',
+   'title.unique' => 'Toks vardas jau yra',
 
-'area.required' => 'Plotas turi būti užpildytas',
-'area.numeric'=> 'Plotas turi būti nurodomas skaičiais',
-
-'about.required' => 'Aprašymas turi būti užpildytas',
+   'area.required' => 'Plotas turi būti užpildytas',
+   'area.numeric'=> 'Plotas turi būti nurodomas skaičiais',
+   
+   'about.required' => 'Aprašymas turi būti užpildytas',
+   'about.min' => 'Aprašymas turi būti ne trumpesnis nei 3 simboliai'
  ]
         );
         if ($validator->fails()) {
@@ -64,7 +68,7 @@ class ReservoirController extends Controller
 
 
         $reservoir = new Reservoir();
-$reservoir-> title = $request-> title;
+$reservoir-> title = $request->title;
 $reservoir-> area = $request-> area;
 $reservoir-> about = $request-> about;
 $reservoir->save();
@@ -112,19 +116,21 @@ return redirect()->route('reservoir.index')->with('success_message','sėkmingai 
 
         $validator = Validator::make($request->all(),
         [
-            'title' => ['required', 'min:2', 'max:200'],
-            'area' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$'],
-            'about' => ['required', 'min:2'],
+            'title' => ['required', 'min:2', 'max:200', 'string'],
+        'area' => ['required', 'numeric','max:999999999.999','min: 0'],
+            'about' => ['required', 'min:3'],
         ],
  [
     'title.required' => 'Privaloma įvesti pavadinimą',
     'title.min' => 'Pavadinimas per trumpas',
     'title.max' => 'Pavadinimas per ilgas',
+    'title.string' => 'Vardas turi būti sudarytas iš raidžių',
    
    'area.required' => 'Plotas turi būti užpildytas',
    'area.numeric'=> 'Plotas turi būti nurodomas skaičiais',
    
-   'about.required' => 'Aprašymas turi būti užpildytas'
+   'about.required' => 'Aprašymas turi būti užpildytas',
+   'about.min' => 'Aprašymas turi būti ne trumpesnis nei 3 simboliai'
  ]
         );
         if ($validator->fails()) {

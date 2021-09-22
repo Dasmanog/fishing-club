@@ -27,12 +27,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'reservoirs'], function(){
     Route::get('', [ReservoirController::class, 'index'])->name('reservoir.index');
+    Route::get('/', [ReservoirController::class, 'index'])->name('reservoir.index');
     Route::get('create', [ReservoirController::class, 'create'])->name('reservoir.create');
     Route::post('store', [ReservoirController::class, 'store'])->name('reservoir.store');
     Route::get('edit/{reservoir}', [ReservoirController::class, 'edit'])->name('reservoir.edit');
     Route::post('update/{reservoir}', [ReservoirController::class, 'update'])->name('reservoir.update');
     Route::post('delete/{reservoir}', [ReservoirController::class, 'destroy'])->name('reservoir.destroy');
     Route::get('show/{reservoir}', [ReservoirController::class, 'show'])->name('reservoir.show');
+    
  });
  
 
@@ -44,5 +46,6 @@ Route::group(['prefix' => 'reservoirs'], function(){
     Route::post('update/{member}', [MemberController::class, 'update'])->name('member.update');
     Route::post('delete/{member}', [MemberController::class, 'destroy'])->name('member.destroy');
     Route::get('show/{member}', [MemberController::class, 'show'])->name('member.show');
+    Route::get('indexSpecifics', [MemberController::class, 'indexSpecifics'])->name('member.indexSpecifics');
  });
  

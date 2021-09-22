@@ -8,7 +8,7 @@
                 <div style="background-color: #B0C4DE; color:black" class="card-header text-center"><h3>Redaguoti narį</h3></div>
 
 
-                <div style="background-color: #B0C4DE; color:black" class="card-body">
+                <div style="background-color: #B0C4DE; color:black" class="card-body image">
                     <form method="POST" action="{{route('member.update',[$member])}}">
                         <div class="form-group row">
                             <div class="form-group">

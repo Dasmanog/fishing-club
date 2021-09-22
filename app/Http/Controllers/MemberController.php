@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Reservoir;
 use Validator;
 
+
 class MemberController extends Controller
 {
     
@@ -17,9 +18,31 @@ class MemberController extends Controller
      */
     public function index()
     {
+        $members = Member::orderBy('name')->orderBy('surname')->get();
+        $membersCities = $members->unique('live');
+        // dd($membersCities);
+        $reservoirs = Reservoir::all()->unique('title');
+
+        return view('member.index', ['members' => $members, 'reservoirs' =>$reservoirs, 'membersCities' =>$membersCities]); 
+    }
+
+        public function indexSpecifics(Request $request) 
+        {
         $members = Member::all();
-        $reservoirs=Reservoir::all();
-       return view('member.index', ['members' => $members, 'reservoirs' => $reservoirs]);
+        
+        $membersCities = $members->unique('live');
+        if ($request->order) {
+            $members = $members->sortBy($request->order);
+        }
+        if($request->filter) {
+            $members = $members->where('reservoir_id','=', $request->filter);
+        }
+        if($request->filterCity) {
+            $members = $members->where('live','=', $request->filterCity);
+        }
+
+        $reservoirs= Reservoir::all()->unique('title');
+       return view('member.index', ['members' => $members, 'reservoirs' => $reservoirs, 'membersCities' => $membersCities]);
     }
 
     /**
